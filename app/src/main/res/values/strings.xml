@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Gloop Instagram</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="action_register">Create new account</string>
+    <string name="title_activity_main">Posts</string>
+    <string name="text_login_activity">Login</string>
+    <string name="title_activity_main2">Posts</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="dummy">dummy text</string>
+
+    <string name="enter_name_for_group">Enter name for Group</string>
+    <string name="create">Create</string>
+    <string name="next">Next</string>
+    <string name="blabla">BlaBla</string>
+    <string name="gloop">gloop</string>
+    <string name="tasks">Posts</string>
+    <string name="groups">Groups</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="name">Name</string>
+    <string name="share">Share</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search">Search</string>
+    <string name="posts">Posts</string>
+</resources>
