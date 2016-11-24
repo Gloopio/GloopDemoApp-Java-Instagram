@@ -20,7 +20,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ItemViewHolder
 
         ItemViewHolder(View view) {
             super(view);
-            this.itemNameTextView = (TextView) view.findViewById(R.id.post_item_title);
+            this.itemNameTextView = (TextView) view.findViewById(R.id.post_item_message);
             this.imageView = (ImageView) view.findViewById(R.id.item_picture);
             view.setClickable(true);
         }
@@ -49,7 +49,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ItemViewHolder
     public void onBindViewHolder(final ItemViewHolder holder, final int position) {
         final Post item = this.postList.get(position);
 
-        holder.itemNameTextView.setText(item.getTitle());
+        holder.itemNameTextView.setText(item.getMessage());
         holder.imageView.setImageBitmap(item.getPicture());
     }
 

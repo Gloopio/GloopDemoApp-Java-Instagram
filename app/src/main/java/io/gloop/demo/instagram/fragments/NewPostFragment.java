@@ -1,5 +1,8 @@
 package io.gloop.demo.instagram.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -7,16 +10,20 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.hardware.Camera;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -26,6 +33,7 @@ import java.util.List;
 import java.util.UUID;
 
 import io.gloop.GloopLogger;
+import io.gloop.demo.instagram.CameraView;
 import io.gloop.demo.instagram.R;
 import io.gloop.demo.instagram.model.Post;
 
@@ -37,7 +45,14 @@ public class NewPostFragment extends Fragment {
     private Activity activity;
     private List<File> cameraImageFiles;
     private ImageView imageView;
+    private EditText messageEditText;
+    private View formView;
+    private View progressView;
 
+    private Camera mCamera = null;
+    private CameraView mCameraView = null;
+
+    private Post post;
 
     public NewPostFragment() {
         // Required empty public constructor
@@ -47,6 +62,8 @@ public class NewPostFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.activity = getActivity();
+
+
     }
 
     @Override
@@ -56,6 +73,10 @@ public class NewPostFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_post, container, false);
 
         this.imageView = (ImageView) view.findViewById(R.id.new_post_picture);
+        this.messageEditText = (EditText) view.findViewById(R.id.new_post_message);
+
+        this.formView = view.findViewById(R.id.new_post_form);
+        this.progressView = view.findViewById(R.id.new_post_progress);
 
         popImageChooser();
 
@@ -63,12 +84,37 @@ public class NewPostFragment extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // TODO implement
+//                showProgress(true);
+                post.setMessage(messageEditText.getText().toString());
+                post.save();
+//                showProgress(false);
+
+                showPostsView();
             }
         });
 
+//        setupCamera(view);
+
         return view;
     }
+
+    public void showPostsView() {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new PostsFragment()).commit();
+    }
+
+//    private void setupCamera(View view) {
+//        try {
+//            mCamera = Camera.open();//you can use open(int) to use different cameras
+//            if (mCamera != null) {
+//                mCameraView = new CameraView(getContext(), mCamera);//create a SurfaceView to show camera data
+//                FrameLayout camera_view = (FrameLayout) view.findViewById(R.id.camera_view);
+//                camera_view.addView(mCameraView);//add the SurfaceView to the layout
+//            }
+//        } catch (Exception e) {
+//            GloopLogger.e("Failed to get camera: " + e.getMessage());
+//        }
+//    }
 
 
     private void popImageChooser() {
@@ -134,7 +180,7 @@ public class NewPostFragment extends Fragment {
                     }
 
                     if (uri != null) {
-                        saveImage(uri);
+                        createPost(uri);
                     }
                 }
         }
@@ -144,15 +190,13 @@ public class NewPostFragment extends Fragment {
         return UUID.randomUUID().toString();
     }
 
-    private void saveImage(Uri uri) {
-
-        String title = UUID.randomUUID().toString();    // TODO get real title
-
+    private void createPost(Uri uri) {
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
             imageView.setImageBitmap(bitmap);
 
-            new Post(title, bitmap).save(); // TODO move to save button
+            post = new Post();
+            post.setPicture(bitmap);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -168,5 +212,31 @@ public class NewPostFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+        formView.setVisibility(show ? View.GONE : View.VISIBLE);
+        formView.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                formView.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
+
+        progressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        progressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                progressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 }

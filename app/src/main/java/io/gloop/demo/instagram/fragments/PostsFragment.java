@@ -156,7 +156,7 @@ public class PostsFragment extends Fragment {
         if (!text.isEmpty()) {
             posts = Gloop.all(Post.class)
                     .where()
-                    .startsWith("title", text)
+                    .startsWith("message", text)
                     .all();
 
             mAdapter = new PostAdapter(posts);

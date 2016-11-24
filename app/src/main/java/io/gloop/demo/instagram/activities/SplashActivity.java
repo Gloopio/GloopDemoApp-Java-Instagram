@@ -14,15 +14,15 @@ import io.gloop.demo.instagram.constants.Constants;
 public class SplashActivity extends Activity {
 
     // Set url of the server.
-//    private static final String HOST_URL = "192.168.0.10:8080";
-    private static final String HOST_URL = "128.131.199.213:8080";
-//    private static final String HOST_URL = "52.169.152.13:8080";
+    //    private static final String GLOOP_HOST_URL = "192.168.0.10:8080";
+//    private static final String GLOOP_HOST_URL = "192.168.0.11:8080";
+        private static final String GLOOP_HOST_URL = "52.169.152.13:8080";
 
-//    private static final String API_KEY = "your-api-key-goes-here";
-//    private static final String API_KEY = "b8ed4e84-4db5-4b63-b369-f75cbf51a065";
-    private static final String API_KEY = "a693b438-1aea-4067-88a4-4eaa10c39203";
+    //    private static final String GLOOP_API_KEY = "your-api-key-goes-here";
+    //    private static final String GLOOP_API_KEY = "b8ed4e84-4db5-4b63-b369-f75cbf51a065";
+    private static final String GLOOP_API_KEY = "9c47aef6-5e9c-4ec2-9edf-93543714c3d9";
 
-    private static final boolean DEBUG = true;
+    private static final boolean GLOOP_DEBUG = true;
 
     /**
      * Duration of wait
@@ -42,10 +42,10 @@ public class SplashActivity extends Activity {
         super.onPostCreate(savedInstanceState);
 
         // setup Gloop
-        new Gloop(this, API_KEY, HOST_URL);
+        new Gloop(this, GLOOP_API_KEY, GLOOP_HOST_URL);
 
         // setup Gloop with debugging enabled
-        // new Gloop(this, "your-api-key-goes-here", HOST_URL, DEBUG);
+        // new Gloop(this, "your-api-key-goes-here", GLOOP_HOST_URL, GLOOP_DEBUG);
 
         /* New Handler to start the next Activity
          * and close this SplashActivity-Screen after some seconds.*/

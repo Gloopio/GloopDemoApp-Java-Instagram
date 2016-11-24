@@ -3,33 +3,34 @@ package io.gloop.demo.instagram.model;
 import android.graphics.Bitmap;
 
 import io.gloop.GloopObject;
-import io.gloop.annotations.Serializer;
-import io.gloop.demo.instagram.BitmapSerializer;
+import io.gloop.annotations.GloopClass;
 
 /**
  * Created by Alex Untertrifaller on 21.10.16.
  */
+@GloopClass(lazyLoading = true)
 public class Post extends GloopObject {
 
-    private String title;
-    @Serializer(BitmapSerializer.class)
+    private String message;
+
+    // Bitmap has a default serializer to save images Base64 encoded to the database
     private Bitmap picture;
 
     public Post() {
 
     }
 
-    public Post(String title, Bitmap picture) {
-        this.title = title;
+    public Post(String message, Bitmap picture) {
+        this.message = message;
         this.picture = picture;
     }
 
-    public String getTitle() {
-        return title;
+    public String getMessage() {
+        return message;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Bitmap getPicture() {

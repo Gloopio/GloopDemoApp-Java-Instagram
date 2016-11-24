@@ -4,23 +4,51 @@
                                                  android:layout_height="match_parent"
                                                  android:fitsSystemWindows="true">
 
+    <ProgressBar
+        android:id="@+id/new_post_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
 
     <LinearLayout
+        android:id="@+id/new_post_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
+        <!--<FrameLayout-->
+        <!--android:id="@+id/camera_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dp">-->
+        <!--</FrameLayout>-->
 
         <ImageView
             android:id="@+id/new_post_picture"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
             android:contentDescription="@string/dummy"
-            android:padding="5dp"
-            android:src="@mipmap/ic_launcher"
-            />
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder_image"/>
+
+    <LinearLayout
+        android:id="@+id/new_post_form_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+
+    <EditText
+            android:id="@+id/new_post_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/message"/>
 
         <Button
             android:id="@+id/new_post_bt_next"
@@ -30,6 +58,8 @@
             android:background="@color/button_background"
             android:text="@string/next"
             android:textColor="@color/button_text_color"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
