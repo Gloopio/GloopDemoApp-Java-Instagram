@@ -42,10 +42,10 @@ public class PostsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_posts, container, false);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.activity_main_swipe_refresh_layout);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.post_list);
+        mSwipeRefreshLayout = view.findViewById(R.id.activity_main_swipe_refresh_layout);
+        mRecyclerView = view.findViewById(R.id.post_list);
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +89,7 @@ public class PostsFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.post_list);
+        mRecyclerView = view.findViewById(R.id.post_list);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 

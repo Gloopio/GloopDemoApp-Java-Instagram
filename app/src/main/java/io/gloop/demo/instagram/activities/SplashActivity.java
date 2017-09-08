@@ -20,7 +20,7 @@ public class SplashActivity extends Activity {
 
     //    private static final String GLOOP_API_KEY = "your-api-key-goes-here";
     //    private static final String GLOOP_API_KEY = "b8ed4e84-4db5-4b63-b369-f75cbf51a065";
-    private static final String GLOOP_API_KEY = "9c47aef6-5e9c-4ec2-9edf-93543714c3d9";
+    private static final String GLOOP_API_KEY = "7007a4ac-fab7-43d1-96eb-137c5b671cf9";
 
     private static final boolean GLOOP_DEBUG = true;
 
@@ -42,7 +42,7 @@ public class SplashActivity extends Activity {
         super.onPostCreate(savedInstanceState);
 
         // setup Gloop
-        new Gloop(this, GLOOP_API_KEY, GLOOP_HOST_URL);
+        Gloop.initialize(this, GLOOP_API_KEY, GLOOP_HOST_URL);
 
         // setup Gloop with debugging enabled
         // new Gloop(this, "your-api-key-goes-here", GLOOP_HOST_URL, GLOOP_DEBUG);

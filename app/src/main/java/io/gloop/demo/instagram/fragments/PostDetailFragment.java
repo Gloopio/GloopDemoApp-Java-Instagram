@@ -33,7 +33,7 @@ public class PostDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_post_detail, container, false);
 
-        TextView nameTextView = (TextView) view.findViewById(R.id.post_detail_name);
+        TextView nameTextView = view.findViewById(R.id.post_detail_name);
         nameTextView.setText(post.getMessage());
 
         return view;

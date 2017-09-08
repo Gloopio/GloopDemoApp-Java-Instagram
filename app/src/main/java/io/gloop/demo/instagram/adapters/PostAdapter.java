@@ -18,6 +18,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ItemViewHolder
         TextView itemNameTextView;
         ImageView imageView;
 
+        Post item;
+
         ItemViewHolder(View view) {
             super(view);
             this.itemNameTextView = (TextView) view.findViewById(R.id.post_item_message);
@@ -51,6 +53,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ItemViewHolder
 
         holder.itemNameTextView.setText(item.getMessage());
         holder.imageView.setImageBitmap(item.getPicture());
+
+        holder.item = item;
+    }
+
+    @Override
+    public void onViewRecycled (ItemViewHolder holder) {
+        holder.item.getPicture().recycle(); // TODO test if helps reducing memory size.
     }
 
     @Override

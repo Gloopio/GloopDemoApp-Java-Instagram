@@ -1,5 +1,6 @@
 package io.gloop.demo.instagram.fragments;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -17,8 +18,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +58,7 @@ public class NewPostFragment extends Fragment {
 
     private Post post;
 
+
     public NewPostFragment() {
         // Required empty public constructor
     }
@@ -72,15 +77,15 @@ public class NewPostFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_post, container, false);
 
-        this.imageView = (ImageView) view.findViewById(R.id.new_post_picture);
-        this.messageEditText = (EditText) view.findViewById(R.id.new_post_message);
+        this.imageView = view.findViewById(R.id.new_post_picture);
+        this.messageEditText = view.findViewById(R.id.new_post_message);
 
         this.formView = view.findViewById(R.id.new_post_form);
         this.progressView = view.findViewById(R.id.new_post_progress);
 
-        popImageChooser();
+        checkPremission();
 
-        final Button next = (Button) view.findViewById(R.id.new_post_bt_next);
+        final Button next = view.findViewById(R.id.new_post_bt_next);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,8 +98,6 @@ public class NewPostFragment extends Fragment {
             }
         });
 
-//        setupCamera(view);
-
         return view;
     }
 
@@ -103,18 +106,44 @@ public class NewPostFragment extends Fragment {
         fragmentManager.beginTransaction().replace(R.id.flContent, new PostsFragment()).commit();
     }
 
-//    private void setupCamera(View view) {
-//        try {
-//            mCamera = Camera.open();//you can use open(int) to use different cameras
-//            if (mCamera != null) {
-//                mCameraView = new CameraView(getContext(), mCamera);//create a SurfaceView to show camera data
-//                FrameLayout camera_view = (FrameLayout) view.findViewById(R.id.camera_view);
-//                camera_view.addView(mCameraView);//add the SurfaceView to the layout
-//            }
-//        } catch (Exception e) {
-//            GloopLogger.e("Failed to get camera: " + e.getMessage());
-//        }
-//    }
+    private static final int REQUEST_RUNTIME_PERMISSION = 1;
+
+    void checkPremission() {
+        //select which permission you want
+        final String permission = Manifest.permission.CAMERA;
+        //final String permission = Manifest.permission.Storage;
+        // if in fragment use getActivity()
+        if (ContextCompat.checkSelfPermission(getActivity(), permission)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permission)) {
+
+            } else {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_RUNTIME_PERMISSION);
+            }
+        } else {
+            // you have permission go ahead
+            popImageChooser();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_RUNTIME_PERMISSION:
+                final int numOfRequest = grantResults.length;
+                final boolean isGranted = numOfRequest == 1
+                        && PackageManager.PERMISSION_GRANTED == grantResults[numOfRequest - 1];
+                if (isGranted) {
+                    // you have permission go ahead
+                    popImageChooser();
+                } else {
+                    // you dont have permission show toast
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 
 
     private void popImageChooser() {
@@ -169,15 +198,15 @@ public class NewPostFragment extends Fragment {
             case ACTIVITY_REQUEST_CODE_IMAGE:
                 if (resultCode == RESULT_OK) {
 
-                    Uri uri = null;
-                    if (imageReturnedIntent == null) {   //since we used EXTRA_OUTPUT for camera, so it will be null
+//                    Uri uri = null;
+//                    if (imageReturnedIntent == null) {   //since we used EXTRA_OUTPUT for camera, so it will be null
 
-                        uri = Uri.fromFile(cameraImageFiles.get(0));    // TODO only one image can be saves for now
-                        GloopLogger.d("attach image from camera: " + uri);
-                    } else {  // from gallery
-                        uri = imageReturnedIntent.getData();
-                        GloopLogger.d("attach image from gallery: " + uri.toString());
-                    }
+                    Uri uri = Uri.fromFile(cameraImageFiles.get(0));
+                    GloopLogger.d("attach image from camera: " + uri);
+//                    } else {  // from gallery
+//                        uri = imageReturnedIntent.getData();
+//                        GloopLogger.d("attach image from gallery: " + uri.toString());
+//                    }
 
                     if (uri != null) {
                         createPost(uri);
