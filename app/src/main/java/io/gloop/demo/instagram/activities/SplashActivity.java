@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import io.gloop.Gloop;
 import io.gloop.demo.instagram.R;
 import io.gloop.demo.instagram.constants.Constants;
@@ -35,6 +37,7 @@ public class SplashActivity extends Activity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_splashscreen);
     }
 
